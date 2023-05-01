@@ -85,6 +85,16 @@ public class UserController {
 		return mav; 
 	};
 	
+	@RequestMapping(value = "ListFiltered")
+	public ModelAndView ListFiltered() { 
+		ModelAndView mav = new ModelAndView();
+		List<BoardListDomain> items = uploadService.boardList();
+		System.out.println("items ==> "+ items);
+		mav.addObject("items", items);
+		mav.setViewName("board/boardListFiltered.html");
+		return mav; 
+	};
+	
 	@GetMapping("mbList")
 	public ModelAndView mbList(HttpServletRequest request) {
 			
@@ -147,12 +157,11 @@ public class UserController {
 	@GetMapping("mbEditList")
 	public ModelAndView mbListEdit(@RequestParam("mbSeq") String mbSeq, HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView();
-
-		mav = mbListCall(request);
+		
+		mav = mbListCall(request);  
 		Map map = new HashMap<String, String>();
 		map.put("mbSeq", mbSeq);
 		LoginDomain loginDomain = userService.mbSelectList(map);
-		System.out.println("loginDomain"+loginDomain.getMbLevel());
 		mav.addObject("item",loginDomain);
 		mav.setViewName("admin/adminEditList.html");
 		return mav; 
@@ -164,7 +173,7 @@ public class UserController {
 		HttpSession session = request.getSession();
 		String page = "1";
 		
-		LoginDomain loginDomain = null; //초기화
+		LoginDomain loginDomain = null;
 		String IP = CommonUtils.getClientIP(request);
 		loginDomain = LoginDomain.builder()
 				.mbSeq(Integer.parseInt(loginVO.getSeq()))
