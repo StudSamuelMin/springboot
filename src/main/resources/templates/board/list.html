@@ -1,20 +1,18 @@
 <div class="section list">
-    <table>
+    <table class="sortable" id="boardlist">
         <th:block th:if="${items}">
             <colgroup>
-                <col style="width: 5%"/>
-                <col style="width: 50%"/>
                 <col style="width: 10%"/>
+                <col style="width: 50%"/>
                 <col style="width: 15%"/>
-                <col style="width: 15%"/>
+                <col style="width: 25%"/>
             </colgroup>
             <thead>
                 <tr>
-                    <th>글번호</th>
+                    <th>글번호<button onClick="sortTable(0)"/></th>
                     <th>제목</th>
                     <th>아이디</th>
                     <th>등록일</th>
-                    <th>수정일</th>
                 </tr>
             </thead>
             
@@ -24,9 +22,9 @@
                   <td><a th:text="${item.bdTitle}" th:href="@{/detail(bdSeq = ${item.bdSeq})}"></a></td>
                   <td th:text="${item.mbId}"></td>
                   <td th:text="${item.bdCreateAt}"></td>
-                  <td th:text="${item.bdUpdateAt}"></td>
+                  <!--<td th:text="${item.bdUpdateAt}"></td>-->
               </tr>
-	        </th:block>    
+	        </th:block>
         </tbody>
     </table>
     
@@ -56,3 +54,61 @@
         
     </th:block>
 </div>
+
+<script>
+function sortTable(n) {
+  let table;
+  table = document.getElementById('boardlist');
+  let rows, i, x, y, count = 0;
+  let switching = true;
+  let dir = 'asc';
+
+  while (switching) {
+    switching = false;
+    let rows = table.rows;
+
+    for (i = 1; i < rows.length - 1; i++) {
+      var Switch = false;
+
+      x = rows[i].getElementsByTagName('TD')[n];
+      y = rows[i + 1].getElementsByTagName('TD')[n];
+      
+      if (n == 0) {
+		if (dir == 'asc') {
+        if (Number(x.innerHTML) > Number(y.innerHTML)) {
+          Switch = true;
+          break;
+        }
+      } else if (dir == 'desc') {
+        if (Number(x.innerHTML) < Number(y.innerHTML)) {
+          Switch = true;
+          break;
+        }
+      }
+    } else if (n == 1) {
+		if (dir == 'asc') {
+        if (String(x.innerHTML.toLowerCase()) > String(y.innerHTML.toLowerCase())) {
+          Switch = true;
+          break;
+        }
+      } else if (dir == 'desc') {
+        if (String(x.innerHTML.toLowerCase()) < String(y.innerHTML.toLowerCase())) {
+          Switch = true;
+          break;
+        }
+      }
+	}
+	  }
+    if (Switch) {
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+      count++;
+    } else {
+      if (count == 0 && dir == 'asc') {
+        dir = 'desc';
+        switching = true;
+      }
+    }
+  }
+}
+</script>

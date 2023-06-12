@@ -5,10 +5,10 @@
 
 	<select id="boardList" resultType="com.co.kr.domain.BoardListDomain">
 	  SELECT bd_seq, mb_id, bd_title, bd_content, bd_create_at, bd_update_at
-	  FROM jsp.board order by bd_update_at desc
+	  FROM jsp.board
+	  order by bd_update_at desc
 	</select>
-
-<!-- content insert -->
+	
 	<insert id="contentUpload" parameterType="com.co.kr.domain.BoardContentDomain"
 	useGeneratedKeys="true"
         keyProperty="bdSeq" keyColumn="bd_seq">

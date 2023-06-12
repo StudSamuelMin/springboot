@@ -2,11 +2,10 @@
     <table>
         <th:block th:if="${items}">
             <colgroup>
-                <col style="width: 5%"/>
-                <col style="width: 50%"/>
                 <col style="width: 10%"/>
+                <col style="width: 50%"/>
                 <col style="width: 15%"/>
-                <col style="width: 15%"/>
+                <col style="width: 25%"/>
             </colgroup>
             <thead>
                 <tr>
@@ -14,7 +13,6 @@
                     <th>제목</th>
                     <th>아이디</th>
                     <th>등록일</th>
-                    <th>수정일</th>
                 </tr>
             </thead>
             
@@ -25,7 +23,7 @@
 	                  <td><a th:text="${item.bdTitle}" th:href="@{/detail(bdSeq = ${item.bdSeq})}"></a></td>
 	                  <td th:text="${item.mbId}"></td>
 	                  <td th:text="${item.bdCreateAt}"></td>
-	                  <td th:text="${item.bdUpdateAt}"></td>
+                  <!--<td th:text="${item.bdUpdateAt}"></td>-->
                   </th:block>
               </tr>
 	        </th:block>    
